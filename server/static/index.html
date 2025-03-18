@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Assistant</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./main.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <h1>Chess Assistant</h1>
+    <p>Upload a screenshot of your chessboard to get a hint for your next move.</p>
+
+    <div class="upload-form">
+        <label for="chessboard-image" class="upload-btn">Select Chessboard Image</label>
+        <input type="file" id="chessboard-image" class="file-input" accept="image/*">
+        <button id="submit-btn" class="upload-btn" style="display: none;">Get Hint</button>
+    </div>
+
+    <div class="preview-container">
+        <h3>Your Chessboard:</h3>
+        <img id="preview-image" src="#" alt="Chessboard preview">
+    </div>
+
+    <div class="loading">
+        <div class="spinner"></div>
+        <p>Analyzing your chessboard...</p>
+    </div>
+
+    <div class="error-message" id="error-message">
+        Error processing your request. Please try again.
+    </div>
+
+    <div class="result-container">
+        <h3>Suggested Move:</h3>
+        <p id="move-suggestion">Knight → E4</p>
+    </div>
+</div>
+</body>
+</html>
