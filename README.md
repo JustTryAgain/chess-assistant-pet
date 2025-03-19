@@ -19,6 +19,7 @@ A simple chess assistant that analyzes an uploaded chessboard image and suggests
 - `Docker Compose v2` installed
 - `Docker version 28+` installed
 - `.env` created and completed like in `.env.example`
+- `sudo usermod -aG docker $USER && newgrp docker` for using docker without sudo if you want
 
 ### Run the App
 
