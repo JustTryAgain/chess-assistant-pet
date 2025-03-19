@@ -37,7 +37,7 @@ class MistralService {
 
     async sendMessage(prompt) {
         try {
-            const response = await this.limitQueueService.queueTask(() => this.httpClient.post(
+            const response = await this.limitQueueService.startTask(() => this.httpClient.post(
                 this.#mistralUrl,
                 {
                     model: this.#mistralModel,

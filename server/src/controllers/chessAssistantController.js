@@ -1,6 +1,5 @@
 const ChessService = require('../services/ChessService');
 const MistralService = require('../services/MistralService');
-const {AppError} = require('../config/errors');
 
 const chessAssistantController = async (req, res, next) => {
     try {

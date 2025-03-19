@@ -4,7 +4,7 @@ class ChessService {
         this.model = model;
     }
 
-    async getChessSuggestionByImg(image, player = 'white') {
+    async getChessSuggestionByImg(image, player) {
         const base64Image = image.buffer.toString('base64');
         // always the same format here [{role, type, message}]
         // types - "text", "image", "file", "url"

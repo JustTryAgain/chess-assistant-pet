@@ -4,28 +4,25 @@ const {AppError} = require('../config/errors');
 class RequestLimitQueueService {
     #queue = [];
     #processing = 0;
-    #timer = null;
+    #isProcessing = false;
 
     // interval in ms, so 1000 = 1s, by default here 1request per second
-    constructor(options = {concurrency: 1, interval: 1000, maxQueueSize: process.env.QUEUE_LIMIT_API}) {
-        this.concurrency = options.concurrency;
+    constructor(options = {interval: 1000, maxQueueSize: process.env.QUEUE_LIMIT_API}) {
         this.interval = options.interval;
         this.maxQueueSize = options.maxQueueSize;
-        logger.info(`Request queue initialized: concurrency=${this.concurrency}, interval=${this.interval}ms, maxQueueSize=${this.maxQueueSize}`);
+        logger.info(`Request queue initialized: interval=${this.interval}ms, maxQueueSize=${this.maxQueueSize}`);
     }
 
-    queueTask(taskFn) {
-        return new Promise((resolve, reject) => {
-            if (this.#queue.length >= this.maxQueueSize) {
-                const error = new AppError('Server is high loaded. Please try again later.', 503);
-                return reject(error);
-            }
+    async startTask(taskFn) {
+        if (this.#queue.length >= this.maxQueueSize) {
+            throw new AppError('Server is high loaded. Please try again later.', 503);
+        }
 
+        return new Promise((resolve, reject) => {
             this.#queue.push({
-                task: taskFn,
+                taskFn,
                 resolve,
-                reject,
-                timestamp: Date.now()
+                reject
             });
 
             logger.info(`Task added to queue. Queue size: ${this.#queue.length}`);
@@ -34,34 +31,30 @@ class RequestLimitQueueService {
         });
     }
 
-    #processQueue() {
-        // already processing so skip
-        if (this.#timer) return;
+    async #processQueue() {
+        if (this.#isProcessing || this.#queue.length === 0) return;
 
-        this.#timer = setInterval(() => {
-            // stop if empty
-            if (this.#queue.length === 0) {
-                clearInterval(this.#timer);
-                this.#timer = null;
-                return;
+        this.#isProcessing = true;
+
+        while (this.#queue.length > 0) {
+            const {taskFn, resolve, reject} = this.#queue.shift();
+            this.#processing++;
+
+            try {
+                const result = await taskFn();
+                resolve(result);
+            } catch (error) {
+                reject(error);
+            } finally {
+                this.#processing--;
+                logger.info(`Task completed. Queue size: ${this.#queue.length}, Processing: ${this.#processing}`);
             }
 
-            while (this.#processing < this.concurrency && this.#queue.length > 0) {
-                this.#queue.sort((a, b) => a.timestamp - b.timestamp);
+            // wait delay
+            await new Promise((res) => setTimeout(res, this.interval));
+        }
 
-                const { task, resolve, reject } = this.#queue.shift();
-                this.#processing++;
-
-                Promise.resolve()
-                    .then(() => task())
-                    .then(result => resolve(result))
-                    .catch(error => reject(error))
-                    .finally(() => {
-                        this.#processing--;
-                        logger.info(`Task completed. Queue size: ${this.#queue.length}, Processing: ${this.#processing}`);
-                    });
-            }
-        }, this.interval);
+        this.#isProcessing = false;
     }
 }
 
