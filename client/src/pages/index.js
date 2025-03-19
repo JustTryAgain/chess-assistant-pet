@@ -3,6 +3,15 @@ import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
 import Image from 'next/image';
 
+export async function getStaticProps() {
+    return {
+        props: {
+            apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002',
+        },
+        revalidate: 86400,
+    };
+}
+
 export default function Home() {
     const [previewSrc, setPreviewSrc] = useState('');
     const [moveSuggestion, setMoveSuggestion] = useState('');

@@ -17,6 +17,7 @@ A simple chess assistant that analyzes an uploaded chessboard image and suggests
 
 - `make` installed
 - `Docker Compose v2` installed
+- `Docker version 28+` installed
 - `.env` created and completed like in `.env.example`
 
 ### Run the App

@@ -1,20 +1,23 @@
 build:
-	docker compose build
+	sudo docker compose build
 
-start:
-	docker compose up -d
+up:
+	sudo docker compose up -d
 
 down:
-	docker compose down
+	sudo docker compose down
 
-logs:
-	docker compose logs -f
+logs-server:
+	sudo docker compose logs server -f
+
+logs-client:
+	sudo docker compose logs client -f
 
 rebuild:
-	docker compose down
-	docker compose build --no-cache
-	docker compose up -d
+	sudo docker compose down
+	sudo docker compose build --no-cache
+	sudo docker compose up -d
 
 clean:
-	docker compose down -v
-	docker system prune -f
+	sudo docker compose down -v
+	sudo docker system prune -f
