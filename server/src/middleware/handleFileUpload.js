@@ -22,10 +22,6 @@ const handleMulterUpload = (req, res, next) => {
             return next(err);
         }
 
-        if (!req.body.playerSide) {
-            return next(new BadRequestError("Player side (white or black) is required"));
-        }
-
         next();
     });
 };

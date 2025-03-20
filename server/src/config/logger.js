@@ -37,4 +37,4 @@ const info = (msg, ...params) => formatLog('info', 'cyan', msg, ...params);
 const warn = (msg, ...params) => formatLog('warn', 'yellow', msg, ...params);
 const error = (msg, ...params) => formatLog('error', 'red', msg, ...params);
 
-module.exports = {log, info, warn, error, warning: warn, getCallingFunction};
+module.exports = {log, info, warn, error};

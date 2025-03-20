@@ -13,8 +13,6 @@ services:
       - .env
     depends_on:
       - server
-    environment:
-      - NEXT_PUBLIC_API_URL=http://server:3002
 
   server:
     build:

@@ -9,7 +9,7 @@ const chessAssistantController = async (req, res, next) => {
         const playerSide = req.body.playerSide;
 
         if (!playerSide) {
-            return res.status(400).json({error: "Select playerSide property."});
+            return res.status(400).json({error: "Select playerSide property"});
         }
 
         const chessAssistant = new ChessService(MistralService);

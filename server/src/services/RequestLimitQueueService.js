@@ -1,5 +1,6 @@
 const logger = require('../config/logger');
 const {AppError} = require('../config/errors');
+const delay = require('../utils/delay');
 
 class RequestLimitQueueService {
     #queue = [];
@@ -51,7 +52,7 @@ class RequestLimitQueueService {
             }
 
             // wait delay
-            await new Promise((res) => setTimeout(res, this.interval));
+            await delay(this.interval);
         }
 
         this.#isProcessing = false;

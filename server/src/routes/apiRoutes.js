@@ -4,7 +4,6 @@ const handleMulterUpload = require('../middleware/handleFileUpload');
 
 const router = Router();
 
-
 router.post('/chess-assistant', handleMulterUpload, chessAssistantController);
 
 module.exports = router;
