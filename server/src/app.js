@@ -22,6 +22,10 @@ app.use(loggingHandler);
 
 app.use('/api', apiRoutes);
 
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
 app.use((_req, res) => {
     res.status(404).json({error: 'Not Found 4 0 4 SOS'});
 });

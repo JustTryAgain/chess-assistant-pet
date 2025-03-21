@@ -12,7 +12,8 @@ services:
     env_file:
       - .env
     depends_on:
-      - server
+      server:
+        condition: service_healthy
 
   server:
     build:
@@ -23,5 +24,11 @@ services:
     volumes:
       - ./server:/app
       - /app/node_modules
+    healthcheck:
+      test: ["CMD", "wget", "-O", "/dev/null", "http://localhost:3002/health"]
+      interval: 12h
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     env_file:
       - .env

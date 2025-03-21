@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "Simple chess ai assistant",
   "main": "index.js",
+  "private": true,
   "scripts": {
-    "dev:start": "nodemon src/app.js",
-    "start": "node src/app.js",
+    "dev:start": "nodemon src/server.js",
+    "start": "node src/server.js",
     "test": "jest"
   },
   "author": "",

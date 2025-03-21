@@ -109,7 +109,7 @@ export default function Home() {
             setMoveSuggestion(data.suggestion);
             setShowResult(true);
         } catch (error) {
-            console.error('Error:', error);
+            // console.error('Error:', error);
             setErrorMessage(error.message || 'Error processing your request. Please try again.');
             setShowError(true);
         } finally {

@@ -19,11 +19,10 @@ clean:
 	docker compose down -v
 	docker system prune -f
 
-rebuild:
-	$(MAKE) clean
-	$(MAKE) build
-	$(MAKE) up
-
 start:
 	$(MAKE) build
 	$(MAKE) up
+
+rebuild:
+	$(MAKE) clean
+	$(MAKE) start
